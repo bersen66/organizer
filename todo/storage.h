@@ -17,6 +17,7 @@ class Storage {
 private:
     std::map<Date, Tasks> data;
 public:
+    Storage(const std::string& path);
     void LoadFromFile(const std::string& source);
     void Add(const Date& date, const Task& task);
     Tasks GetDailyTasks(const Date& date) const;

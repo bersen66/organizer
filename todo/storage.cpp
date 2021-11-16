@@ -1,6 +1,16 @@
-#include <storage.h>
+#include "storage.h"
 #include <fstream>
 #include <sstream>
+
+
+Storage::Storage(const std::string& path) {
+    try {
+        LoadFromFile(path);
+    }  catch (std::runtime_error& err) {
+        std::ofstream load_file(path);
+        load_file.close();
+    }
+}
 
 void Storage::LoadFromFile(const std::string &path) {
     std::fstream in(path);
