@@ -18,6 +18,10 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        storage.h storage.cpp
+        date.cpp date.h
+        time_keeper.cpp time_keeper.h
+        date.cpp date.h
         mainwindow.ui
 )
 
