@@ -22,7 +22,7 @@ set(PROJECT_SOURCES
         date.cpp date.h
         time_keeper.cpp time_keeper.h
         date.cpp date.h
-        task.cpp task.h
+        task.cpp task.h #task_view.h task_view.cpp
         mainwindow.ui
 )
 

@@ -2,13 +2,16 @@
 
 #include <QApplication>
 #include "storage.h"
+#include <string>
+
+const std::string file_path = "tasks.txt";
 
 int main(int argc, char *argv[])
 {
-    Storage st("tasks.txt");
-
+    Storage st(file_path);
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+    a.exec();
+    return 0;
 }
