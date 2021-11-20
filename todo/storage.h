@@ -29,7 +29,11 @@ public:
     std::map<Date, Tasks>::iterator begin();
     std::map<Date, Tasks>::iterator end();
 
-    const auto cbegin() const;
-    const auto cend() const;
+    inline auto begin() const {
+        return data.begin();
+    }
+    inline auto end() const {
+        return data.end();
+    }
 };
 #endif //COURS_STORAGE_H

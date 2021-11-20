@@ -66,10 +66,20 @@ std::map<Date, Tasks>::iterator Storage::end() {
     return data.end();
 }
 
-const auto Storage::cbegin() const {
-    return data.cbegin();
-}
+//auto Storage::begin() const {
+//    return data.begin();
+//}
 
-const auto Storage::cend() const {
-    return data.cend();
-}
+//auto Storage::end() const {
+//    return data.end();
+//}
+//
+//
+//const auto Storage::cbegin() const {
+//    return data.cbegin();
+//}
+//
+//const auto Storage::cend() const {
+//    return data.cend();
+//}
+//

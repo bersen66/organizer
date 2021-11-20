@@ -4,11 +4,9 @@
 #include <QApplication>
 
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QListWidget>
-#include <scrollable_pannel.h>
+#include <QBoxLayout>
 
+#include <QListWidget>
 
 #include "task_view.h"
 #include "storage.h"
@@ -31,6 +29,15 @@ void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
     }
 }
 
+void UpdateDates(const Storage& st,QListWidget* dest) {
+    for (auto& [data, task_info] : st) {
+        // Распаковка содержимого хранилища
+        QListWidgetItem* data_item = new QListWidgetItem;
+        data_item ->setText(data.ToString().c_str());
+        dest -> addItem(data_item);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     Storage st(file_path);
@@ -38,74 +45,34 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QMainWindow window;
-    window.setGeometry(0, 0, 1000, 640);
+    window.setGeometry(0, 0, 1200, 600);
     QWidget* widget = new QWidget(&window);
     QHBoxLayout* layout = new QHBoxLayout(widget);
-
     window.setCentralWidget(widget);
     widget -> setLayout(layout);
 
     QScrollArea* datas_scroll = new QScrollArea;
     QListWidget* datas_lw = new QListWidget;
     datas_scroll -> setWidget(datas_lw);
-    layout -> addWidget(datas_lw);
+    datas_scroll -> setWidgetResizable(true);
 
-    QScrollArea* scroll_box =new QScrollArea;
-    QListWidget* lw = new QListWidget;
+    QScrollArea* tasks_scroll =new QScrollArea;
+    QListWidget* tasks_lw = new QListWidget;
+    tasks_scroll -> setWidget(tasks_lw);
+    tasks_scroll -> setWidgetResizable(true);
 
-    scroll_box -> setWidget(lw);
-    layout -> addWidget(lw);
-
-    ScrollablePannel* pannel = new ScrollablePannel;
-    layout -> addWidget(pannel);
-    /*
-    for (int i = 0; i < 30; i++) {
-        TaskView* tw = new TaskView;
-        tw -> SetDeadline("21.21.21");
-        tw -> SetDescription("Aboba abooooooba" + std::to_string(i));
-
-        pannel -> AddItem(tw);
-
-        // Добавление элемента в лист
-        QListWidgetItem* itm = new QListWidgetItem;
-        itm -> setSizeHint(tw->size());
-        lw -> addItem(itm);
-        lw -> setItemWidget(itm, tw);
-    }
-
-    for (int i = 0; i < 13; i++) {
-        QListWidgetItem* itm = new QListWidgetItem;
-        itm ->setText("Data: " + QString::number(i));
-        datas_lw -> addItem(itm);
-    }
-    */
+    UpdateDates(st, datas_lw);
+    UpdateTasks(st, (st.begin())->first,tasks_lw);
 
 
-    for (const auto& [data, task_info] : st) {
-        // Распаковка содержимого хранилища
-        QListWidgetItem* data_item = new QListWidgetItem;
-        data_item ->setText(data.ToString().c_str());
-        datas_lw -> addItem(data_item);
-    }
+    //layout -> addWidget(datas_lw);
+    layout -> addWidget(datas_scroll);
 
-
-    UpdateTasks(st, st.begin()->first,lw);
-
-//    for (const auto& task : hello_screen_tasks_data) {
-//        TaskView* tw = new TaskView;
-//        tw -> SetDeadline(task.deadline.ToString());
-//        tw -> SetDescription(task.description);
-
-//        QListWidgetItem* itm = new QListWidgetItem;
-//        itm -> setSizeHint(tw->size());
-//        lw -> addItem(itm);
-//        lw -> setItemWidget(itm, tw);
-//    }
-
+    //layout -> addWidget(tasks_lw);
+    layout -> addWidget(tasks_scroll);
     window.show();
 
     a.exec();
-
 
     return 0;
 }
