@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScrollArea>
+
+#include "task_view.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,8 +17,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    QScrollArea* GetDatasArea();
+    QScrollArea* GetTasksArea();
+    void AddTask(TaskView* task);
+    void AddData();
 private:
     //Ui::MainWindow *ui;
+    QScrollArea* datas_;
+    QScrollArea* tasks_;
 };
 #endif // MAINWINDOW_H

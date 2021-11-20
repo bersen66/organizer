@@ -7,6 +7,8 @@ TaskView::TaskView(QWidget* parent)
     : QWidget(parent), passed_(new QCheckBox(this)),
       deadline_(new QLabel("", this)), description_(new QLabel("", this))
 {
+    this->setFixedHeight(50);
+
     setLayout(new QVBoxLayout);
     QHBoxLayout* lay = new QHBoxLayout;
     lay -> addWidget(deadline_);

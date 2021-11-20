@@ -18,8 +18,9 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
+        #mainwindow.cpp
+        #mainwindow.h
+        main_window.h main_window.cpp
         storage.h storage.cpp
         date.cpp date.h
         time_keeper.cpp time_keeper.h
