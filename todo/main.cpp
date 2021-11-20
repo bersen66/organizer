@@ -16,6 +16,21 @@
 
 const std::string file_path = "tasks.txt";
 
+
+void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
+    auto screen_data = st.GetDailyTasks(date);
+    for (const auto& task : screen_data) {
+        TaskView* tw = new TaskView;
+        tw -> SetDeadline(task.deadline.ToString());
+        tw -> SetDescription(task.description);
+
+        QListWidgetItem* itm = new QListWidgetItem;
+        itm -> setSizeHint(tw->size());
+        dest -> addItem(itm);
+        dest -> setItemWidget(itm, tw);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     Storage st(file_path);
@@ -65,26 +80,32 @@ int main(int argc, char *argv[])
     }
     */
 
+
     for (const auto& [data, task_info] : st) {
         // Распаковка содержимого хранилища
         QListWidgetItem* data_item = new QListWidgetItem;
         data_item ->setText(data.ToString().c_str());
         datas_lw -> addItem(data_item);
-
-        for (const auto& task : task_info) {
-            TaskView* tw = new TaskView;
-            tw -> SetDeadline(task.deadline.ToString());
-            tw -> SetDescription(task.description);
-
-            QListWidgetItem* itm = new QListWidgetItem;
-            itm -> setSizeHint(tw->size());
-            lw -> addItem(itm);
-            lw -> setItemWidget(itm, tw);
-        }
     }
+
+
+    UpdateTasks(st, st.begin()->first,lw);
+
+//    for (const auto& task : hello_screen_tasks_data) {
+//        TaskView* tw = new TaskView;
+//        tw -> SetDeadline(task.deadline.ToString());
+//        tw -> SetDescription(task.description);
+
+//        QListWidgetItem* itm = new QListWidgetItem;
+//        itm -> setSizeHint(tw->size());
+//        lw -> addItem(itm);
+//        lw -> setItemWidget(itm, tw);
+//    }
 
     window.show();
 
     a.exec();
+
+
     return 0;
 }
