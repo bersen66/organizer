@@ -25,5 +25,11 @@ public:
     void RemoveTask(const Date& date, const Task& task);
     void Write(std::ostream& out) const;
     void Clear();
+
+    std::map<Date, Tasks>::iterator begin();
+    std::map<Date, Tasks>::iterator end();
+
+    const auto cbegin() const;
+    const auto cend() const;
 };
 #endif //COURS_STORAGE_H

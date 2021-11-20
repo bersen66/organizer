@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
         main.cpp
         #mainwindow.cpp
         #mainwindow.h
+        scrollable_pannel.h scrollable_pannel.cpp
         main_window.h main_window.cpp
         storage.h storage.cpp
         date.cpp date.h

@@ -9,8 +9,10 @@ TaskView::TaskView(QWidget* parent)
 {
     this->setFixedHeight(50);
 
+    passed_ ->sizeHint();
     setLayout(new QVBoxLayout);
-    QHBoxLayout* lay = new QHBoxLayout;
+    QHBoxLayout* lay = new QHBoxLayout; 
+
     lay -> addWidget(deadline_);
     lay -> addWidget(description_);
     lay -> addWidget(passed_);
