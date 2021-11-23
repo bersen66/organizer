@@ -21,13 +21,13 @@ set(PROJECT_SOURCES
         #mainwindow.cpp
         #mainwindow.h
         #scrollable_pannel.h scrollable_pannel.cpp
-        main_window.h main_window.cpp
+        #main_window.h main_window.cpp
         storage.h storage.cpp
         date.cpp date.h
         time_keeper.cpp time_keeper.h
         date.cpp date.h
         task.cpp task.h task_view.h task_view.cpp
-        mainwindow.ui
+        #mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

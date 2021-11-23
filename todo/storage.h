@@ -26,14 +26,12 @@ public:
     void Write(std::ostream& out) const;
     void Clear();
 
-    std::map<Date, Tasks>::iterator begin();
-    std::map<Date, Tasks>::iterator end();
+    inline auto begin() {return data.begin();}
 
-    inline auto begin() const {
-        return data.begin();
-    }
-    inline auto end() const {
-        return data.end();
-    }
+    inline auto end() {return data.end();}
+
+    inline auto begin() const {return data.begin();}
+
+    inline auto end() const {return data.end();}
 };
 #endif //COURS_STORAGE_H

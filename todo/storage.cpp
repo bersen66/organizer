@@ -58,14 +58,21 @@ void Storage::Write(std::ostream &out) const {
 }
 
 
-std::map<Date, Tasks>::iterator Storage::begin() {
-    return data.begin();
-}
+//auto Storage::begin() {
+//    return data.begin();
+//}
 
-std::map<Date, Tasks>::iterator Storage::end() {
-    return data.end();
-}
+//auto Storage::end() {
+//    return data.end();
+//}
 
+//inline auto Storage::begin() const {
+//    return data.begin();
+//}
+
+//inline auto Storage::end() const {
+//    return data.end();
+//}
 //auto Storage::begin() const {
 //    return data.begin();
 //}

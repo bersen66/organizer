@@ -1,19 +1,14 @@
 #include "mainwindow.h"
 #include <string>
-#include <vector>
 #include <QApplication>
-
 #include <QPushButton>
 #include <QBoxLayout>
-
 #include <QListWidget>
 
 #include "task_view.h"
 #include "storage.h"
 
-
 const std::string file_path = "tasks.txt";
-
 
 void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
     auto screen_data = st.GetDailyTasks(date);
@@ -51,23 +46,33 @@ int main(int argc, char *argv[])
     window.setCentralWidget(widget);
     widget -> setLayout(layout);
 
+    QVBoxLayout* left_pannel = new QVBoxLayout;
+
+    QPushButton* add_button = new QPushButton;
+
+
     QScrollArea* datas_scroll = new QScrollArea;
     QListWidget* datas_lw = new QListWidget;
     datas_scroll -> setWidget(datas_lw);
-    datas_scroll -> setWidgetResizable(true);
+    datas_scroll -> setWidgetResizable(true); // важно!
+    datas_scroll -> setMaximumWidth(150);
+
 
     QScrollArea* tasks_scroll =new QScrollArea;
     QListWidget* tasks_lw = new QListWidget;
     tasks_scroll -> setWidget(tasks_lw);
-    tasks_scroll -> setWidgetResizable(true);
+    tasks_scroll -> setWidgetResizable(true); // важно!
 
     UpdateDates(st, datas_lw);
     UpdateTasks(st, (st.begin())->first,tasks_lw);
 
 
     //layout -> addWidget(datas_lw);
-    layout -> addWidget(datas_scroll);
+    //left_pannel -> addWidget(datas_scroll);
 
+    left_pannel -> addWidget(datas_scroll);
+    left_pannel -> addWidget(add_button);
+    layout -> addLayout(left_pannel);
     //layout -> addWidget(tasks_lw);
     layout -> addWidget(tasks_scroll);
     window.show();
