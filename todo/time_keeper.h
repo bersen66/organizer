@@ -19,7 +19,7 @@ struct Minute {
 
 struct Second {
     int value;
-    explicit Second(int val) : value(val % 60){};
+    explicit Second(int val = 0) : value(val % 60){};
 };
 
 class TimeKeeper {

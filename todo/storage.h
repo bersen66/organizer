@@ -26,9 +26,11 @@ public:
     void Write(std::ostream& out) const;
     void Clear();
 
-    inline auto begin() {return data.begin();}
 
-    inline auto end() {return data.end();}
+    // Нужно для range-based for по хранилищу
+    //inline auto begin() {return data.begin();}
+    //
+    //inline auto end() {return data.end();}
 
     inline auto begin() const {return data.begin();}
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(todo VERSION 0.1 LANGUAGES CXX)
+project(toDo VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -11,57 +11,65 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
+        storage.h
+        storage.cpp
+
+        date.cpp
+        date.h
+
+        time_keeper.cpp
+        time_keeper.h
+
+        date.cpp
+        date.h
+
+        task.cpp
+        task.h
+
+        task_view.h
+        task_view.cpp
+
         main.cpp
-        #mainwindow.cpp
-        #mainwindow.h
-        #scrollable_pannel.h scrollable_pannel.cpp
-        #main_window.h main_window.cpp
-        adding_window.h adding_window.cpp
-        storage.h storage.cpp
-        date.cpp date.h
-        time_keeper.cpp time_keeper.h
-        date.cpp date.h
-        task.cpp task.h task_view.h task_view.cpp
-        #mainwindow.ui
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(todo
+    qt_add_executable(untitled1
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET todo APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET untitled1 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(todo SHARED
+        add_library(untitled1 SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(todo
+        add_executable(untitled1
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(todo PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(untitled1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-set_target_properties(todo PROPERTIES
+set_target_properties(untitled1 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(todo)
+    qt_finalize_executable(untitled1)
 endif()

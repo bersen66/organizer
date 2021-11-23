@@ -1,73 +1,68 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QPushButton>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      datas_(new QScrollArea(this)),
-      tasks_(new QScrollArea(this))
+#include <QListWidget>
+#include <QListWidgetItem>
 
-    //, ui(new Ui::MainWindow)
+#include <sstream>
+
+#include "task_view.h"
+#include "storage.h"
+#include "date.h"
+
+MainWindow::MainWindow(Storage* st, QWidget *parent)
+    : QMainWindow(parent), st(st)
+    , ui(new Ui::MainWindow)
 {
-    //datas_ -> setBackgroundRole(QPalette::Dark);
-    //tasks_ -> setBackgroundRole(QPalette::Mid);
-
-    //setLayout(new QHBoxLayout);
-//    QHBoxLayout* lay = new QHBoxLayout;
-//     lay -> addWidget(new QPushButton("b1",this));
-//     lay -> addWidget(new QPushButton("b2", this));
-
-//     lay -> addWidget(new QPushButton("b3", this));
-//     lay -> addWidget(new QPushButton("b4", this));
-
-//     setLayout(lay);
-//    QHBoxLayout* lay = new QHBoxLayout;
-//    lay -> addWidget(tasks_);
-//    lay -> addWidget(datas_);
-//    layout() -> addItem(lay);
-//    ui->setupUi(this);
-      setLayout(new QHBoxLayout);
-      QVBoxLayout *vbox = new QVBoxLayout(this);
-      vbox->setSpacing(1);
-
-      QPushButton *settings = new QPushButton("Settings", this);
-      settings->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-      QPushButton *accounts = new QPushButton("Accounts", this);
-      accounts->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-      QPushButton *loans = new QPushButton("Loans", this);
-      loans->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-      QPushButton *cash = new QPushButton("Cash", this);
-      cash->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-      QPushButton *debts = new QPushButton("Debts", this);
-      debts->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-      vbox->addWidget(settings);
-      vbox->addWidget(accounts);
-      vbox->addWidget(loans);
-      vbox->addWidget(cash);
-      vbox->addWidget(debts);
-
-      layout() -> addItem(vbox);
+    ui->setupUi(this);
+    UpdateDates(*(this->st), ui->datas_lw);
 
 }
+
+QListWidget* MainWindow::getTasksLW() const {
+    return ui->tasks_lw;
+}
+
+QListWidget* MainWindow::getDatasLW() const {
+    return ui->datas_lw;
+}
+
 
 MainWindow::~MainWindow()
 {
-    //delete ui;
+    delete ui;
 }
 
-QScrollArea* MainWindow::GetDatasArea(){
-    return datas_;
+void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
+    dest->clear();
+    auto screen_data = st.GetDailyTasks(date);
+    for (const auto& task : screen_data) {
+        TaskView* tw = new TaskView;
+        tw -> SetDeadline(task.deadline.ToString());
+        tw -> SetDescription(task.description);
+
+        QListWidgetItem* itm = new QListWidgetItem;
+        itm -> setSizeHint(tw->size());
+        dest -> addItem(itm);
+        dest -> setItemWidget(itm, tw);
+    }
 }
 
-QScrollArea* MainWindow::GetTasksArea(){
-    return tasks_;
+void UpdateDates(const Storage& st, QListWidget* dest) {
+    dest->clear();
+    for (auto& [data, task_info] : st) {
+        // Распаковка содержимого хранилища
+        QListWidgetItem* data_item = new QListWidgetItem;
+        data_item ->setText(data.ToString().c_str());
+        dest -> addItem(data_item);
+    }
 }
 
-void MainWindow::AddTask(TaskView* task) {
-    tasks_-> setWidget(task);
+void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
+{
+    std::istringstream in(item->text().toStdString());
+
+    Date d = ParseDate(in);
+    UpdateTasks(*st, std::move(d), ui->tasks_lw);
 }
+

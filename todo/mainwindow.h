@@ -2,28 +2,35 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QScrollArea>
+#include <QListWidget>
 
-#include "task_view.h"
+#include "storage.h"
+#include "date.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Storage* st, QWidget *parent = nullptr);
     ~MainWindow();
-    QScrollArea* GetDatasArea();
-    QScrollArea* GetTasksArea();
-    void AddTask(TaskView* task);
-    void AddData();
+    QListWidget* getTasksLW() const;
+    QListWidget* getDatasLW() const;
+private slots:
+    void on_datas_lw_itemDoubleClicked(QListWidgetItem *item);
+
 private:
-    //Ui::MainWindow *ui;
-    QScrollArea* datas_;
-    QScrollArea* tasks_;
+    Storage* st;
+    Ui::MainWindow *ui;
 };
+
+void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest);
+void UpdateDates(const Storage& st, QListWidget* dest);
+
 #endif // MAINWINDOW_H
