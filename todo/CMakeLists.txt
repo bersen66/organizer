@@ -37,6 +37,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+
+        add_task_window.h
+        add_task_window.cpp
+        add_task_window.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

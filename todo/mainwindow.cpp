@@ -10,6 +10,8 @@
 #include "storage.h"
 #include "date.h"
 
+#include "add_task_window.h"
+
 MainWindow::MainWindow(Storage* st, QWidget *parent)
     : QMainWindow(parent), st(st)
     , ui(new Ui::MainWindow)
@@ -64,5 +66,13 @@ void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
 
     Date d = ParseDate(in);
     UpdateTasks(*st, std::move(d), ui->tasks_lw);
+}
+
+
+void MainWindow::on_add_task_btn_clicked()
+{
+    AddTaskWindow tw;
+    tw.setModal(true);
+    tw.exec();
 }
 

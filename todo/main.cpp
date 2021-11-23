@@ -4,7 +4,7 @@
 #include <QListWidgetItem>
 
 #include <fstream>
-
+#include "add_task_window.h"
 #include "task_view.h"
 #include "storage.h"
 #include "date.h"
@@ -21,17 +21,20 @@ void SaveEverithing(const Storage& st) {
 }
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     Storage st(file_path);
     QApplication a(argc, argv);
 
     MainWindow w(&st, nullptr);
-
-
     w.show();
-    a.exec();
-    SaveEverithing(st);
 
+    AddTaskWindow tw(nullptr);
+
+    tw.show();
+
+
+    a.exec();
+
+    SaveEverithing(st);
     return 0;
 }

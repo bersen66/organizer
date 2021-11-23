@@ -25,6 +25,8 @@ public:
 private slots:
     void on_datas_lw_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_add_task_btn_clicked();
+
 private:
     Storage* st;
     Ui::MainWindow *ui;
