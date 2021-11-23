@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         #mainwindow.h
         #scrollable_pannel.h scrollable_pannel.cpp
         #main_window.h main_window.cpp
+        adding_window.h adding_window.cpp
         storage.h storage.cpp
         date.cpp date.h
         time_keeper.cpp time_keeper.h
