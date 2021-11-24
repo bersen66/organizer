@@ -12,29 +12,6 @@
 
 #include "add_task_window.h"
 
-MainWindow::MainWindow(Storage* st, QWidget *parent)
-    : QMainWindow(parent), st(st)
-    , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-    UpdateDates(*(this->st), ui->datas_lw);
-
-}
-
-QListWidget* MainWindow::getTasksLW() const {
-    return ui->tasks_lw;
-}
-
-QListWidget* MainWindow::getDatasLW() const {
-    return ui->datas_lw;
-}
-
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
 void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
     dest->clear();
     auto screen_data = st.GetDailyTasks(date);
@@ -60,6 +37,31 @@ void UpdateDates(const Storage& st, QListWidget* dest) {
     }
 }
 
+MainWindow::MainWindow(Storage* st, QWidget *parent)
+    : QMainWindow(parent), st(st)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    UpdateDates(*(this->st), ui->datas_lw);
+
+}
+
+QListWidget* MainWindow::getTasksLW() const {
+    return ui->tasks_lw;
+}
+
+QListWidget* MainWindow::getDatasLW() const {
+    return ui->datas_lw;
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+
 void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
 {
     std::istringstream in(item->text().toStdString());
@@ -71,7 +73,7 @@ void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
 
 void MainWindow::on_add_task_btn_clicked()
 {
-    AddTaskWindow tw;
+    AddTaskWindow tw(st, nullptr);
     tw.setModal(true);
     tw.exec();
 }

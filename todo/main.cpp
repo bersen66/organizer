@@ -27,12 +27,6 @@ int main(int argc, char *argv[]) {
 
     MainWindow w(&st, nullptr);
     w.show();
-
-    AddTaskWindow tw(nullptr);
-
-    tw.show();
-
-
     a.exec();
 
     SaveEverithing(st);

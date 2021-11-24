@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QListWidget>
 
+#include <memory>
+
 #include "storage.h"
 #include "date.h"
 
@@ -31,8 +33,5 @@ private:
     Storage* st;
     Ui::MainWindow *ui;
 };
-
-void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest);
-void UpdateDates(const Storage& st, QListWidget* dest);
 
 #endif // MAINWINDOW_H

@@ -16,7 +16,10 @@
 #define NOVEMBER    11
 #define DECEMBER    12
 
-
+enum class  DateFormat {
+    DMY,
+    YMD
+};
 struct Year {
     int value;
     explicit Year(int value) : value(value) {}
@@ -52,14 +55,14 @@ public:
 
     bool operator!=(const Date &date) const;
 
-    [[nodiscard]] std::string ToString(char separator = '-') const;
+    [[nodiscard]] std::string ToString(char separator = '-', const DateFormat& df = DateFormat::YMD) const;
 
     friend std::ostream& operator << (std::ostream& out, const Date& date);
 };
 
 
-Date ParseDate(std::istringstream& is);
-
+Date ParseDate(std::istringstream& is, const DateFormat& df = DateFormat::YMD);
+Date ParseDate(std::istringstream&& is, const DateFormat& df = DateFormat::YMD);
 #ifdef DEBUGMODE
 void TestLogicOperators();
 void TestParseDate();

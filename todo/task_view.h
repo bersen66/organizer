@@ -10,7 +10,7 @@ class TaskView : public QWidget {
 
     Q_OBJECT
 public:
-    explicit TaskView(QWidget* parent = 0);
+    explicit TaskView(QWidget* parent = nullptr);
     virtual ~TaskView();
     void MakePassed();
     void SetDeadline(const std::string& deadline);

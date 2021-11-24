@@ -24,7 +24,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="date_edit"/>
+      <widget class="QDateEdit" name="date_edit">
+       <property name="dateTime">
+        <datetime>
+         <hour>0</hour>
+         <minute>0</minute>
+         <second>0</second>
+         <year>2021</year>
+         <month>1</month>
+         <day>1</day>
+        </datetime>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QTimeEdit" name="time_editor"/>
@@ -62,5 +73,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cancel_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>AddTaskWindow</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>297</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>390</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

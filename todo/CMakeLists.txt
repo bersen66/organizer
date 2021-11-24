@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
 
+        update.h
+        update.cpp
+
         add_task_window.h
         add_task_window.cpp
         add_task_window.ui

@@ -45,11 +45,20 @@ void Date::IsCorrect() const {
     }
 }
 
-std::string Date::ToString(char separator) const {
+std::string Date::ToString(char separator, const DateFormat& df) const {
     std::stringstream stringstr;
-    stringstr << std::setw(4) << std::setfill('0') << year.value << separator
-              << std::setw(2) << std::setfill('0') << month.value << separator
-              << std::setw(2) << std::setfill('0') << day.value;
+    if (df == DateFormat::YMD) {
+        stringstr << std::setw(4) << std::setfill('0') << year.value << separator
+                  << std::setw(2) << std::setfill('0') << month.value << separator
+                  << std::setw(2) << std::setfill('0') << day.value;
+    }
+
+    if (df == DateFormat::DMY) {
+        stringstr<< std::setw(2) << std::setfill('0') << day.value
+                 << std::setw(2) << std::setfill('0') << month.value << separator
+                 << std::setw(4) << std::setfill('0') << year.value << separator;
+
+    }
     return stringstr.str();
 }
 
@@ -85,12 +94,25 @@ std::ostream &operator<<(std::ostream &out, const Date &date) {
 }
 
 
-Date ParseDate(std::istringstream& is) {
+Date ParseDate(std::istringstream& is,const DateFormat& df) {
     int year, month, day;
-    is >> year;
-    is.ignore();
-    is >> month;
-    is.ignore();
-    is >> day;
+    if (df == DateFormat::YMD) {
+        is >> year;
+        is.ignore();
+        is >> month;
+        is.ignore();
+        is >> day;
+    }
+    if (df == DateFormat::DMY) {
+        is >> day;
+        is.ignore();
+        is >> month;
+        is.ignore();
+        is >> year;
+    }
     return Date(Year(year), Month(month), Day(day));
+}
+
+Date ParseDate(std::istringstream&& is, const DateFormat& df) {
+   return ParseDate(is, df);
 }
