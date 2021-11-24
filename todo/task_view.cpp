@@ -1,10 +1,11 @@
 #include <QBoxLayout>
 
-
+#include <iostream>
 #include "task_view.h"
+#include "date.h"
 
-TaskView::TaskView(QWidget* parent)
-    : QWidget(parent), passed_(new QCheckBox(this)),
+TaskView::TaskView(const Date& d, QWidget* parent)
+    : QWidget(parent), passed_(new QCheckBox(this)), meta(d),
       deadline_(new QLabel("", this)), description_(new QLabel("", this))
 {
     this->setFixedHeight(50);
@@ -17,6 +18,26 @@ TaskView::TaskView(QWidget* parent)
     lay -> addWidget(description_);
     lay -> addWidget(passed_);
     layout() -> addItem(lay);
+
+    QObject::connect(
+                passed_,
+                SIGNAL(stateChanged(int)),
+                this,
+                SLOT(stateChanged())
+    );
+}
+
+
+void TaskView::stateChanged() {
+    std::cout << "stateChanged" << std::endl;
+
+    TimeKeeper kp = ParseTime(
+                 std::istringstream(std::move(deadline_ ->text().toStdString()))
+                );
+
+   QString str = description_ -> text();
+   emit passed(meta, Task(kp, str.toStdString()));
+
 }
 
 TaskView::~TaskView(){

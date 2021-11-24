@@ -2,12 +2,24 @@
 #include <iostream>
 #include <iomanip>
 
+#include <algorithm>
 #include "date.h"
 
 
 Date::Date(Year y, Month m, Day d) : year(y), month(m), day(d) {
     IsCorrect();
 }
+
+Date::Date(const Date& other)
+    :year(other.year.value),
+     month(other.month.value),
+     day(other.day.value){}
+
+//Date& Date::operator=(const Date &date) {
+//    Date temp(date);
+//    std::swap(this, temp);
+//    return *this;
+//}
 
 // Можно ли без хардкода?
 void Date::IsCorrect() const {

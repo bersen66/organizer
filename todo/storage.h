@@ -25,6 +25,7 @@ public:
     void RemoveTask(const Date& date, const Task& task);
     void Write(std::ostream& out) const;
     void Clear();
+    bool Empty() const;
 
 
     // Нужно для range-based for по хранилищу

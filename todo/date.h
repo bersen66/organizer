@@ -36,11 +36,12 @@ struct Day {
 
 class Date {
 private:
-    const Year year;
-    const Month month;
-    const Day day;
+    Year year;
+    Month month;
+    Day day;
     void IsCorrect() const;
 public:
+    Date(const Date&);
     explicit Date(Year y, Month m, Day d);
 
     bool operator<(const Date &date) const;
@@ -54,6 +55,8 @@ public:
     bool operator==(const Date &date) const;
 
     bool operator!=(const Date &date) const;
+
+    //Date& operator=(const Date &date);
 
     [[nodiscard]] std::string ToString(char separator = '-', const DateFormat& df = DateFormat::YMD) const;
 

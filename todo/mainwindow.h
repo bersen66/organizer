@@ -30,12 +30,17 @@ private slots:
 public slots:
     void update_tasks_slot(const Date& date);
     void update_dates_slot();
+    void delete_task_slot(const Date& date, const Task& task);
 private:
+
+    void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest);
+    void UpdateDates(const Storage& st, QListWidget* dest);
+
+    Date current_date;
     Storage* st;
     Ui::MainWindow *ui;
 };
 
-void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest);
-void UpdateDates(const Storage& st, QListWidget* dest);
+
 
 #endif // MAINWINDOW_H

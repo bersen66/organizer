@@ -3,6 +3,8 @@
 #include <sstream>
 
 
+
+
 Storage::Storage(const std::string& path) {
     try {
         LoadFromFile(path);
@@ -10,6 +12,11 @@ Storage::Storage(const std::string& path) {
         std::ofstream load_file(path);
         load_file.close();
     }
+}
+
+
+bool Storage::Empty() const {
+    return data.empty();
 }
 
 void Storage::LoadFromFile(const std::string &path) {

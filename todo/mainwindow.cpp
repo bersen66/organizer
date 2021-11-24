@@ -12,24 +12,39 @@
 
 #include "add_task_window.h"
 
-void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
+void MainWindow::UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
     dest->clear();
-    auto screen_data = st.GetDailyTasks(date);
-    for (const auto& task : screen_data) {
-        TaskView* tw = new TaskView;
-        tw -> SetDeadline(task.deadline.ToString());
-        tw -> SetDescription(task.description);
+    if (st.Empty())
+        return;
+    try {
+        auto screen_data = st.GetDailyTasks(date);
+        for (const auto& task : screen_data) {
+            TaskView* tw = new TaskView(date);
+            tw -> SetDeadline(task.deadline.ToString());
+            tw -> SetDescription(task.description);
+            QObject::connect(
+                        tw,
+                        SIGNAL(passed(Date, Task)),
+                        this,
+                        SLOT(delete_task_slot(const Date&, const Task&))
+           );
 
-        QListWidgetItem* itm = new QListWidgetItem;
-        itm -> setSizeHint(tw->size());
-        dest -> addItem(itm);
-        dest -> setItemWidget(itm, tw);
-    }
+
+            QListWidgetItem* itm = new QListWidgetItem;
+            itm -> setSizeHint(tw->size());
+            dest -> addItem(itm);
+            dest -> setItemWidget(itm, tw);
+        }
+    } catch(...){return;}
+
+
     std::cout << "On update tasks!" << std::endl;
 }
 
-void UpdateDates(const Storage& st, QListWidget* dest) {
+void MainWindow::UpdateDates(const Storage& st, QListWidget* dest) {
     dest->clear();
+    if (st.Empty())
+        return;
     for (auto& [data, task_info] : st) {
         // Распаковка содержимого хранилища
         QListWidgetItem* data_item = new QListWidgetItem;
@@ -39,16 +54,13 @@ void UpdateDates(const Storage& st, QListWidget* dest) {
     std::cout << "On update dates!" << std::endl;
 }
 
-
-
-
 MainWindow::MainWindow(Storage* st, QWidget *parent)
-    : QMainWindow(parent), st(st)
+    : QMainWindow(parent), st(st), current_date(st->begin()->first)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     UpdateDates(*(this->st), ui->datas_lw);
-
 }
 
 QListWidget* MainWindow::getTasksLW() const {
@@ -78,8 +90,9 @@ void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
 
 void MainWindow::update_tasks_slot(const Date& date) {
     ui->datas_lw->clear();
-     std::cout << "In update_dates slot!" << std::endl;
-    UpdateTasks(*st, date, ui->tasks_lw);
+    current_date = date;
+    std::cout << "In update_dates slot!" << std::endl;
+    UpdateTasks(*st, current_date, ui->tasks_lw);
 }
 
 void MainWindow::update_dates_slot() {
@@ -87,6 +100,16 @@ void MainWindow::update_dates_slot() {
     std::cout << "In update_dates slot!" << std::endl;
     UpdateDates(*st, ui->datas_lw);
 }
+
+void MainWindow::delete_task_slot(const Date& date, const Task& task) {
+    std::cout << "in delete task slot" << std::endl;
+    st->RemoveTask(date, task);
+    UpdateTasks(*st, date, ui->tasks_lw);
+    UpdateDates(*st, ui->datas_lw);
+
+}
+
+
 
 void MainWindow::on_add_task_btn_clicked()
 {
