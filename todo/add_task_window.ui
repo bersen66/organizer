@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>434</width>
-    <height>453</height>
+    <height>192</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,17 +38,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="time_editor"/>
+      <widget class="QTimeEdit" name="time_edit"/>
      </item>
      <item>
       <widget class="QLabel" name="descript_lbl">
        <property name="text">
-        <string>Description:</string>
+        <string>Task name:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="description_editor"/>
+      <widget class="QLineEdit" name="desript_edit"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">

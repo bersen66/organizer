@@ -25,6 +25,7 @@ void UpdateTasks(const Storage& st, const Date& date, QListWidget* dest) {
         dest -> addItem(itm);
         dest -> setItemWidget(itm, tw);
     }
+    std::cout << "On update tasks!" << std::endl;
 }
 
 void UpdateDates(const Storage& st, QListWidget* dest) {
@@ -35,6 +36,7 @@ void UpdateDates(const Storage& st, QListWidget* dest) {
         data_item ->setText(data.ToString().c_str());
         dest -> addItem(data_item);
     }
+    std::cout << "On update dates!" << std::endl;
 }
 
 MainWindow::MainWindow(Storage* st, QWidget *parent)
@@ -71,10 +73,32 @@ void MainWindow::on_datas_lw_itemDoubleClicked(QListWidgetItem *item)
 }
 
 
+void MainWindow::update_tasks_slot(const Date& date) {
+    ui->datas_lw->clear();
+     std::cout << "In update_dates slot!" << std::endl;
+    UpdateTasks(*st, date, ui->tasks_lw);
+}
+
+void MainWindow::update_dates_slot() {
+    ui->datas_lw->clear();
+    std::cout << "In update_dates slot!" << std::endl;
+    UpdateDates(*st, ui->datas_lw);
+}
+
 void MainWindow::on_add_task_btn_clicked()
 {
-    AddTaskWindow tw(st, nullptr);
-    tw.setModal(true);
-    tw.exec();
+    AddTaskWindow* tw = new AddTaskWindow(st, nullptr);
+    tw->setModal(true);
+    QObject::connect(tw,
+            SIGNAL(add_task_signal(const Date&, const Task&)),
+            this,
+            SLOT(update_tasks_slot(const Date&))
+    );
+
+    QObject::connect(tw,
+                  SIGNAL(add_task_signal(const Date&, const Task&)),
+                  this,
+                  SLOT(update_dates_slot()));
+    tw->exec();
 }
 

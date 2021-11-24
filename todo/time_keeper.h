@@ -53,5 +53,6 @@ private:
 
 
 TimeKeeper ParseTime(std::istringstream& is);
+TimeKeeper ParseTime(std::istringstream&& is);
 
 #endif //ALGO_TIME_H

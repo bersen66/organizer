@@ -63,6 +63,7 @@ public:
 
 Date ParseDate(std::istringstream& is, const DateFormat& df = DateFormat::YMD);
 Date ParseDate(std::istringstream&& is, const DateFormat& df = DateFormat::YMD);
+
 #ifdef DEBUGMODE
 void TestLogicOperators();
 void TestParseDate();

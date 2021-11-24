@@ -60,13 +60,17 @@ std::string TimeKeeper::ToString(char separator) const {
 
 
 TimeKeeper ParseTime(std::istringstream& is) {
-    int hour, minute, second;
+    int hour, minute, second = 0;
     is >> hour;
     is.ignore();
     is >> minute;
     is.ignore();
     is >> second;
     return TimeKeeper{Hour(hour), Minute(minute), Second(second)};
+}
+
+TimeKeeper ParseTime(std::istringstream&& is) {
+    return ParseTime(is);
 }
 
 std::ostream& operator<<(std::ostream& in, const TimeKeeper& time) {
