@@ -39,6 +39,9 @@ void UpdateDates(const Storage& st, QListWidget* dest) {
     std::cout << "On update dates!" << std::endl;
 }
 
+
+
+
 MainWindow::MainWindow(Storage* st, QWidget *parent)
     : QMainWindow(parent), st(st)
     , ui(new Ui::MainWindow)

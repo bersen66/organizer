@@ -1,12 +1,13 @@
 #include <string>
 #include <time_keeper.h>
 #include <task.h>
+#include <tuple>
 
 Task::Task(const TimeKeeper &deadline, const std::string &description)
         : deadline(deadline), description(description) {}
 
 bool Task::operator<(const Task &rhs) const {
-    return deadline < rhs.deadline;
+    return std::tie(deadline, description) < std::tie(rhs.deadline, rhs.description);
 }
 
 bool Task::operator>(const Task &rhs) const {
